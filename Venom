@@ -1,0 +1,123 @@
+Japbore edited this page on Apr 13, 2017 · 3 revisions
+Merging Development Branches into Master
+
+Creating a new release candidate branch
+
+To create a remote branch for a new release candidate (RC)
+you can do it on the website:
+-> change branch to devel, write text into “Find or create a branch…”: devel_7.0.0.RC
+
+This will create a new branch devel_7.0.0.RC based on the devel branch
+
+In the following, you will checkout the new remote branch in your existing user fork. There is no need to clone the whole git repository again if you are a maintainer.
+
+Checkout new branch in your fork:
+update fork:
+
+  $ git fetch upstream
+or
+
+  $ git pull upstream
+check with:
+
+  $ git branch -a
+new branch remotes/upstream/devel_7.0.0.RC will show up.
+
+create new tracking branch:
+
+   $ git checkout --track upstream/devel_7.0.0.RC
+creates local branch, tracking changes in upstream branch
+
+as maintainer, you can push changes to release branch:
+
+   $ git push -u upstream devel_7.0.0.RC
+and subsequently just
+
+   $ git push
+pushes local branch to upstream, tracking changes in upstream branch
+
+check with:
+
+ $ git branch -vv
+finally, after merging it into master, you can delete it:
+
+the local branch:
+
+ $ git branch -d devel_7.0.0.RC
+the remote branch:
+
+ $ git push upstream --delete devel_7.0.0.RC
+Merging release candidate into master
+
+This explains how to merge a branch devel_7.0.0.RC into the branch master of the repository specfem3d_globe. This is an operation that only the code maintainers can perform.
+
+Build a local clone of the repo
+
+ $ git clone git@github.com:geodynamics/specfem3d_globe.git
+Note that this will create a different clone than the one you use for your developments. The origin remote will be the main repository as opposed to your own fork on GitHub. To check that do,
+
+     $ git remote -v
+ 	origin	git@github.com:geodynamics/specfem3d_globe.git (fetch)
+ 	origin	git@github.com:geodynamics/specfem3d_globe.git (push)
+Now pull the branch you want to merge into master, devel_7.0.0.RC in this example
+
+ $ git branch --track devel_7.0.0.RC origin/devel_7.0.0.RC
+You can check that the branch has been created with:
+
+    $ git branch
+          devel_7.0.0.RC
+        * master
+Merge the local branch devel_7.0.0.RC into the local branch master
+
+ $ git merge devel_7.0.0.RC
+Check that the phrase Fast-forward appears in that merge, as in
+
+     $ git merge devel_7.0.0.RC 
+     Updating fd75881..b29a9a7
+     Fast-forward
+If Fast-forward is not there, something went wrong, most likely your branches are out of sync with the central repo. Fix that before you move to the next step.
+
+Push your master branch to the central repo on GitHub. Remember what Uncle Ben said: "With great power comes great responsibility" ...
+
+ $ git push origin master
+Development wiki for SPECFEM3D
+ Pages 34
+Development wiki
+
+Home
+Best Practices
+Using Git for SPECFEM
+FOR ADVANCED USERS ONLY / PLEASE DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING / Advanced Git Topics
+Versioning Conventions
+Merging Development Branches into Master
+User manual
+
+01_introduction
+02_getting_started
+03_mesh_generation
+04_creating_databases
+05_running_the_solver
+06_fault_sources
+07_adjoint_simulations
+08_doing_tomography
+08b_performing_full_waveform_inversion_FWI_or_source_inversions
+09_noise_simulations
+10_gravity_calculations
+11_graphics
+12_running_scheduler
+13_changing_the_model
+14_post_processing
+15_informations_for_developers
+A_reference_frame
+B_channel_codes
+C_troubleshooting
+D_license
+authors
+bug_reports
+copyright_and_version
+manual_SPECFEM3D_Cartesian
+notes_and_acknowledgement
+sponsors
+Clone this wiki locally
+
+	
